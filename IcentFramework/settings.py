@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # Icent Application
     'Icent',
-
     # Default Application
     'django.contrib.admin',
     'django.contrib.auth',
