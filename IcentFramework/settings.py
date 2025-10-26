@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 其他APP
+    'dbbackup', # 最流行的 Django 备份库，支持 MySQL、PostgreSQL、SQLite、MongoDB，可将备份存储到本地、Amazon S3、Dropbox 等，还支持压缩和加密。
 ]
 
 MIDDLEWARE = [
@@ -88,7 +90,7 @@ DATABASES = {
         'USER': 'safin',
         'PASSWORD': 'safin123',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }
 
@@ -133,3 +135,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# django-dbbackup配置存储位置（示例：本地存储到backup/目录）
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {
+    'location': 'backup/'  # 本地备份文件存放路径
+}
+# 若需云存储（如Amazon S3），需额外配置：
+# DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DBBACKUP_STORAGE_OPTIONS = {
+#     'bucket_name': 'your-s3-bucket',
+#     'access_key': 'your-access-key',
+#     'secret_key': 'your-secret-key',
+# }
