@@ -148,8 +148,3 @@ DBBACKUP_STORAGE_OPTIONS = {
 #     'access_key': 'your-access-key',
 #     'secret_key': 'your-secret-key',
 # }
-
-# 替换为你的 pg_dump.exe 实际绝对路径（r 开头避免转义字符问题）
-DUMP_CMD = r'C:\Program Files\PostgreSQL\18\bin\pg_dump.exe'
-# 恢复命令路径也一并配置（后续恢复数据用）
-RESTORE_CMD = r'C:\Program Files\PostgreSQL\18\bin\pg_restore.exe'
