@@ -1,0 +1,13 @@
+{% extends 'Icent/base.html' %}
+
+{% block content %}
+  <p>用户组</p>
+  
+  <ul>
+    {% for usergroup in usergroups %}
+      <li>{{ usergroup.usergroup_name }}</li>
+    {% empty %}
+      <li>无用户组数据</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}
