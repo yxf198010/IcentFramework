@@ -1,0 +1,17 @@
+{% extends 'Icent/base.html' %}
+
+{% block content %}
+  <p>用户组:{{usergroup.usergroup_desc}}</p>
+  
+  <p>用户列表:</p>  
+  <ul>
+    {% for sysuser in sysusers %}
+      <li>
+	    <p>{{ sysuser.createdate|date:'Y-m-d H:i:s' }}</p>
+		<p>{{ sysuser.username|linebreaks }}</p>
+	  </li>
+    {% empty %}
+      <li>无用户组下用户数据</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

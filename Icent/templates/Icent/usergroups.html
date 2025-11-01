@@ -5,7 +5,9 @@
   
   <ul>
     {% for usergroup in usergroups %}
-      <li>{{ usergroup.usergroup_name }}</li>
+      <li>
+	    <a href="{% url 'Icent:usergroup' usergroup.id %}">{{ usergroup.usergroup_desc }}</a>
+	  </li>
     {% empty %}
       <li>无用户组数据</li>
     {% endfor %}

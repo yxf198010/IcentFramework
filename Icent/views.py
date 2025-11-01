@@ -11,3 +11,10 @@ def usergroups(request):
     usergroups = UserGroup.objects.order_by('createdate')
     context= {'usergroups': usergroups}
     return render(request,'Icent/usergroups.html', context)
+    
+def usergroup(request,id):
+    """显示特定用户组及其所有用户"""
+    usergroup = UserGroup.objects.get(id=id)
+    sysusers = usergroup.sysuser_set.order_by('-createdate')
+    context= {'usergroup': usergroup,'sysusers':sysusers}
+    return render(request,'Icent/usergroup.html', context)
