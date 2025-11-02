@@ -1,6 +1,108 @@
-<p>
-  <a href="{% url 'Icent:index' %}">埃讯特科技</a> -
-  <a href="{% url 'Icent:usergroups' %}">用户组列表</a>
-</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}埃讯特科技 - 信息管理系统{% endblock title %}</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif; /* 企业系统常用字体 */
+        }
 
-{% block content %}{% endblock content %}
+        body {
+            background-color: #f8f9fa; /* 浅灰背景，减轻视觉疲劳 */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 头部导航栏 */
+        .header {
+            background-color: #007bff; /* 主色调：蓝色，体现专业感 */
+            padding: 12px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 轻微阴影，增强层次感 */
+        }
+
+        .nav-container {
+            max-width: 1200px; /* 限制最大宽度，避免宽屏显示散乱 */
+            margin: 0 auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px; /* 导航项间距 */
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 10px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3; /* hover时加深颜色 */
+        }
+
+        .nav-links a.active {
+            background-color: #0056b3; /* 当前页导航高亮 */
+            font-weight: 500;
+        }
+
+        /* 主内容区容器 */
+        .main-content {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        /* 页面标题样式（统一在content块中） */
+        .page-title {
+            font-size: 20px;
+            color: #212529;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            max-width: 1200px;
+            margin: 40px auto 20px;
+            padding: 15px 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 13px;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航：删除未定义的settings路由链接 -->
+    <header class="header">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="{% url 'Icent:index' %}" {% if request.resolver_match.url_name == 'index' %}class="active"{% endif %}>埃讯特科技</a></li>
+                <li><a href="{% url 'Icent:usergroups' %}" {% if request.resolver_match.url_name == 'usergroups' %}class="active"{% endif %}>用户组列表</a></li>
+                <!-- 已删除未使用的settings导航项 -->
+            </ul>
+        </div>
+    </header>
+
+    <!-- 主内容区（子模板填充） -->
+    <main class="main-content">
+        {% block content %}{% endblock content %}
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2025 埃讯特科技 - 企业信息管理系统</p>
+    </footer>
+</body>
+</html>

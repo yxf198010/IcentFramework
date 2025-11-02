@@ -1,12 +1,108 @@
 {% extends 'Icent/base.html' %}
 
 {% block content %}
-  <p>添加用户组:</p>
+<style>
+  /* 表单整体样式：与用户表单保持一致的宽度和间距 */
+  .usergroup-form {
+    width: 650px;
+    margin: 20px 0;
+  }
+  /* 表单组（label+控件）：横向排列，统一对齐规则 */
+  .usergroup-form div {
+    display: flex;
+    align-items: flex-start;  /* 顶部对齐，适配可能的多行控件 */
+    margin-bottom: 18px;  /* 与用户表单保持相同的行间距 */
+  }
+  /* 标签样式：固定宽度130px，与用户表单统一 */
+  .usergroup-form label {
+    width: 130px;
+    text-align: right;
+    margin-right: 15px;  /* 标签与控件间距，避免紧贴 */
+    padding-top: 6px;  /* 垂直居中对齐 */
+    font-weight: 500;
+  }
+  /* 控件样式：左对齐，填充剩余宽度，与用户表单样式统一 */
+  .usergroup-form input,
+  .usergroup-form textarea,
+  .usergroup-form select {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  /* 文本域适配（如果用户组表单有文本域） */
+  .usergroup-form textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+  /* 错误提示样式：与用户表单保持一致的红色背景 */
+  .usergroup-form .errorlist {
+    color: #dc3545;
+    margin: 5px 0 0 145px;  /* 与控件左对齐（130px+15px） */
+    padding: 5px 10px;
+    background-color: #fef2f2;
+    border-radius: 3px;
+    list-style: none;
+    font-size: 13px;
+    width: calc(100% - 145px);  /* 与控件同宽 */
+  }
+  /* 按钮组：提交+重置，与用户表单对齐规则一致 */
+  .btn-group {
+    margin-left: 145px;  /* 与控件左对齐 */
+    margin-top: 10px;
+  }
+  /* 提交按钮样式：复用用户表单的蓝色按钮 */
+  .btn-submit {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  /* 重置按钮样式：复用用户表单的灰色按钮 */
+  .btn-reset {
+    padding: 8px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-reset:hover {
+    background-color: #5a6268;
+  }
+  /* 页面标题样式：与base.html定义的page-title统一，保持系统风格一致 */
+  .page-title {
+    font-size: 20px;
+    color: #212529;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 500;
+  }
+</style>
 
-  <form action="{% url 'Icent:usergroup_add' %}" method="post">
+<!-- 优化标题：使用统一的page-title类 -->
+<p class="page-title">添加用户组</p>
+
+<form action="{% url 'Icent:usergroup_add' %}" method="post" class="usergroup-form">
   {% csrf_token %}
   {{ form.as_div }}
-  <button name="submit">添加</button>
-  </form>
+  <!-- 按钮组：保持与用户表单相同的布局 -->
+  <div class="btn-group">
+    <button type="submit" name="submit" class="btn-submit">添加</button>
+    <button type="reset" class="btn-reset">重置</button>
+  </div>
+</form>
 
 {% endblock content %}

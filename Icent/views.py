@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import UserGroup
-from .forms import UserGroupForm
+from .models import UserGroup,SysUser
+from .forms import UserGroupForm,SysUserForm
 # Create your views here.
 
 def index(request):
@@ -34,3 +34,42 @@ def usergroup_add(request):
     # 显示空表单或指出表单数据无效
     context = {'form': form}
     return render(request,'Icent/usergroup_add.html', context)
+
+def sysuser_add(request, usergroup_id):
+    usergroup = UserGroup.objects.get(id=usergroup_id)
+
+    """添加新用户"""
+    if request.method != 'POST':
+        # 未提交数据：创建一个新表单
+        form = SysUserForm()
+    else:
+        # POST提交的数据：对数据进行处理
+        form = SysUserForm(data=request.POST)
+        if form.is_valid():
+            sysuser_add = form.save(commit=False)
+            sysuser_add.usergroup = usergroup
+            sysuser_add.save()
+            return redirect('Icent:usergroup', id=usergroup_id)
+    # 显示空表单或指出表单数据无效
+    context = {'usergroup': usergroup,'form': form}
+    return render(request,'Icent/sysuser_add.html', context)
+
+def sysuser_edit(request, sysuser_id):
+    """编辑用户"""
+    sysuser = SysUser.objects.get(id=sysuser_id)
+    usergroup = sysuser.usergroup
+
+    """编辑用户"""
+    if request.method != 'POST':
+        # 初次请求：当前用户填充表单
+        form = SysUserForm(instance=sysuser)
+    else:
+        # POST提交的数据：对数据进行处理
+        form = SysUserForm(instance=sysuser, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('Icent:usergroup', usergroup.id)
+    # 显示表单或指出表单数据无效
+    context = {'sysuser': sysuser,'usergroup': usergroup,'form': form}
+    return render(request,'Icent/sysuser_edit.html', context)
+

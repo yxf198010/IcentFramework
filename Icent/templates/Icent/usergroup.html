@@ -1,17 +1,139 @@
 {% extends 'Icent/base.html' %}
 
 {% block content %}
-  <p>用户组:{{usergroup.usergroup_desc}}</p>
-  
-  <p>用户列表:</p>  
-  <ul>
+<style>
+  /* 页面容器容器样式：与表单保持一致的宽度和边距 */
+  .userlist-container {
+    width: 650px;
+    margin: 20px 0;
+    padding: 0 10px; /* 轻微内边距，避免内容贴边 */
+  }
+
+  /* 标题区域样式：用户组标题与操作按钮对齐 */
+  .title-bar {
+    display: flex;
+    justify-content: space-between; /* 标题居左，按钮居右 */
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee; /* 下划线分隔 */
+  }
+
+  /* 用户组标题样式 */
+  .title-bar h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+
+  /* 添加按钮样式：与表单提交按钮风格统一 */
+  .add-btn {
+    padding: 6px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none; /* 去除链接下划线 */
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .add-btn:hover {
+    background-color: #0056b3;
+    color: white; /* 保持 hover 时文字颜色 */
+  }
+
+  /* 列表容器样式：增加边框和内边距，提升层次感 */
+  .user-list {
+    list-style: none; /* 去除默认列表符号 */
+    padding: 0;
+    margin: 0;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
+
+  /* 列表项样式：改为弹性布局，让文字居左、按钮居右 */
+  .user-list li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f5f5f5; /* 项之间的分隔线 */
+    display: flex;
+    justify-content: space-between; /* 文字左、按钮右 */
+    align-items: center; /* 垂直居中对齐 */
+  }
+  /* 最后一项去除底部边框 */
+  .user-list li:last-child {
+    border-bottom: none;
+  }
+
+  /* 列表项悬停效果：轻微背景色，提升交互感 */
+  .user-list li:hover {
+    background-color: #f9f9f9;
+  }
+
+  /* 日期样式：灰色小字，与用户名区分 */
+  .user-date {
+    color: #6c757d;
+    font-size: 13px;
+    margin: 0 0 8px 0; /* 与用户名保持间距 */
+  }
+
+  /* 用户名样式：突出显示 */
+  .user-name {
+    margin: 0;
+    font-size: 15px;
+    color: #212529;
+  }
+
+  /* 编辑按钮样式：与用户组列表的操作按钮风格统一 */
+  .action-btn {
+    padding: 4px 12px;
+    background-color: #6c757d; /* 灰色系，与添加按钮区分 */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .action-btn:hover {
+    background-color: #5a6268; /* hover 加深颜色 */
+    color: white;
+  }
+
+  /* 空列表提示样式：居中+灰色，弱化显示 */
+  .empty-hint {
+    text-align: center;
+    padding: 30px 0;
+    color: #6c757d;
+    font-style: italic; /* 斜体区分普通文本 */
+    flex: 1; /* 占满整行，确保居中 */
+  }
+</style>
+
+<div class="userlist-container">
+  <!-- 标题与添加按钮区域 -->
+  <div class="title-bar">
+    <h3>用户组: {{ usergroup.usergroup_desc }}</h3>
+    <a href="{% url 'Icent:sysuser_add' usergroup.id %}" class="add-btn">添加用户</a>
+  </div>
+
+  <p>用户列表:</p>
+
+  <!-- 用户列表 -->
+  <ul class="user-list">
     {% for sysuser in sysusers %}
       <li>
-	    <p>{{ sysuser.createdate|date:'Y-m-d H:i:s' }}</p>
-		<p>{{ sysuser.username|linebreaks }}</p>
-	  </li>
+        <!-- 日期+用户名区域 -->
+        <div>
+          <p class="user-date">{{ sysuser.createdate|date:'Y-m-d H:i:s' }}</p>
+          <p class="user-name">{{ sysuser.username|linebreaks }}</p>
+        </div>
+        <!-- 编辑按钮：居右显示 -->
+        <a href="{% url 'Icent:sysuser_edit' sysuser.id %}" class="action-btn">编辑</a>
+      </li>
     {% empty %}
-      <li>无用户组下用户数据</li>
+      <li class="empty-hint">无用户组下用户数据</li>
     {% endfor %}
   </ul>
+</div>
 {% endblock content %}

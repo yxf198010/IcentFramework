@@ -1,0 +1,141 @@
+{% extends 'Icent/base.html' %}
+
+{% block content %}
+<style>
+  /* 表单整体样式：控制宽度和居中 */
+  .sysuser-form {
+    width: 650px;
+    margin: 20px 0;
+  }
+  /* 表单组（label+控件）：横向排列、对齐控制 */
+  .sysuser-form div {
+    display: flex;
+    align-items: flex-start;  /* 顶部对齐，适配文本域 */
+    margin-bottom: 18px;  /* 每组上下间距 */
+  }
+  /* 标签样式：固定宽度、右对齐、间距控制 */
+  .sysuser-form label {
+    width: 130px;  /* 固定标签宽度（可按需调整） */
+    text-align: right;
+    margin-right: 15px;  /* 标签与控件间距，避免紧贴 */
+    padding-top: 6px;  /* 与控件垂直居中对齐 */
+    font-weight: 500;  /* 标签文字稍粗，更清晰 */
+  }
+  /* 控件样式：左对齐、统一宽度和样式 */
+  .sysuser-form input,
+  .sysuser-form textarea,
+  .sysuser-form select {
+    flex: 1;  /* 控件自动填充剩余宽度 */
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  /* 文本域特殊处理：固定行数、禁止横向拉伸 */
+  .sysuser-form textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+  /* 日期控件适配：统一高度和样式 */
+  .sysuser-form input[type="date"] {
+    height: 36px;  /* 与其他输入框高度一致 */
+  }
+  /* 错误提示样式：红色背景+左对齐，更醒目 */
+  .sysuser-form .errorlist {
+    color: #dc3545;
+    margin: 5px 0 0 145px;  /* 标签宽度+间距，与控件左对齐 */
+    padding: 5px 10px;
+    background-color: #fef2f2;
+    border-radius: 3px;
+    list-style: none;
+    font-size: 13px;
+    width: calc(100% - 145px);  /* 与控件宽度一致 */
+  }
+  /* 按钮组：两个按钮横向排列，间距控制 */
+  .btn-group {
+    margin-left: 145px;  /* 与控件左对齐 */
+    margin-top: 10px;
+  }
+  /* 提交按钮样式 */
+  .btn-submit {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;  /* 与重置按钮间距 */
+  }
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  /* 重置按钮样式：灰色系，区分提交按钮 */
+  .btn-reset {
+    padding: 8px 20px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-reset:hover {
+    background-color: #5a6268;
+  }
+  /* 面包屑导航样式：统一系统导航风格 */
+  .breadcrumb {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 15px;
+    padding: 0;
+  }
+  .breadcrumb a {
+    color: #007bff;  /* 与系统主色调一致 */
+    text-decoration: none;
+    margin: 0 5px;
+  }
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  .breadcrumb span {
+    color: #6c757d;
+  }
+  /* 页面标题样式：与其他页面统一（添加用户组、编辑用户） */
+  .page-title {
+    font-size: 20px;
+    color: #212529;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 500;
+  }
+</style>
+
+<!-- 优化1：面包屑导航（清晰展示当前位置，与编辑用户页面一致） -->
+<p class="breadcrumb">
+  <a href="{% url 'Icent:usergroups' %}">用户组列表</a>
+  <span>→</span>
+  <a href="{% url 'Icent:usergroup' usergroup.id %}">{{ usergroup.usergroup_desc }}</a>
+  <span>→</span>
+  <span>添加用户</span>
+</p>
+
+<!-- 优化2：页面标题（使用统一的page-title类） -->
+<p class="page-title">添加用户</p>
+
+<!-- 给表单加自定义类，避免影响其他表单 -->
+<form action="{% url 'Icent:sysuser_add' usergroup.id %}" method="post" class="sysuser-form">
+  {% csrf_token %}
+  {{ form.as_div }}  <!-- 保持 Django 自动生成的 div 结构 -->
+
+  <!-- 按钮组：提交+重置 -->
+  <div class="btn-group">
+    <button type="submit" name="submit" class="btn-submit">添加</button>
+    <button type="reset" class="btn-reset">重置</button>
+  </div>
+</form>
+
+{% endblock content %}

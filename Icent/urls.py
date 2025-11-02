@@ -29,4 +29,8 @@ urlpatterns = [
     path('usergroups/<int:id>/', views.usergroup,name='usergroup'),
     # 添加用户组的页面
     path('usergroup_add', views.usergroup_add, name='usergroup_add'),
+    # 添加用户的页面
+    path('sysuser_add/<int:usergroup_id>', views.sysuser_add, name='sysuser_add'),
+    # 编辑用户的页面
+    path('sysuser_edit/<int:sysuser_id>', views.sysuser_edit, name='sysuser_edit'),
 ]
