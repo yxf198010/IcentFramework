@@ -1,0 +1,12 @@
+{% extends 'Icent/base.html' %}
+
+{% block content %}
+  <p>添加用户组:</p>
+
+  <form action="{% url 'Icent:usergroup_add' %}" method="post">
+  {% csrf_token %}
+  {{ form.as_div }}
+  <button name="submit">添加</button>
+  </form>
+
+{% endblock content %}

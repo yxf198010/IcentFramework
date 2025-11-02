@@ -27,4 +27,6 @@ urlpatterns = [
     path('usergroups/', views.usergroups, name='usergroups'),
     #显示特定用户组的详情页面
     path('usergroups/<int:id>/', views.usergroup,name='usergroup'),
+    # 添加用户组的页面
+    path('usergroup_add', views.usergroup_add, name='usergroup_add'),
 ]

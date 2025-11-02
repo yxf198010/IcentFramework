@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import UserGroup
+from .forms import UserGroupForm
 # Create your views here.
 
 def index(request):
@@ -18,3 +19,18 @@ def usergroup(request,id):
     sysusers = usergroup.sysuser_set.order_by('-createdate')
     context= {'usergroup': usergroup,'sysusers':sysusers}
     return render(request,'Icent/usergroup.html', context)
+
+def usergroup_add(request):
+    """添加新用户组"""
+    if request.method != 'POST':
+        # 未提交数据：创建一个新表单
+        form = UserGroupForm()
+    else:
+        # POST提交的数据：对数据进行处理
+        form = UserGroupForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('Icent:usergroups')
+    # 显示空表单或指出表单数据无效
+    context = {'form': form}
+    return render(request,'Icent/usergroup_add.html', context)
